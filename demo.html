@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Linear Algebra Solver</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <nav>
+        <h1>Linear Algebra Solver</h1>
+        <div class="nav-links">
+            <a href="index.html">Introduction</a>
+            <a href="demo.html" class="active">Interactive Demo</a>
+            <a href="conclusion.html">Conclusion</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="demo-container">
+            <div class="left-panel">
+                <div class="controls">
+                    <label>Method:</label>
+                    <select id="methodSelect" onchange="resetDemo()">
+                        <option value="gaussian">Gaussian Elimination</option>
+                        <option value="ero">Elementary Row Operations (ERO)</option>
+                        <option value="inverse">Matrix Inverse (Step-by-Step)</option>
+                    </select>
+                    <button class="btn" onclick="prevStep()" id="prevBtn" disabled>Previous</button>
+                    <div id="stepCounter" style="font-family: monospace; padding: 0 10px;">0 / 0</div>
+                    <button class="btn" onclick="nextStep()" id="nextBtn">Next</button>
+                    <button class="btn" onclick="resetDemo()" style="background-color: #ef4444;">Reset</button>
+                </div>
+
+                <div class="info-panel">
+                    <div id="descriptionBox" class="step-description">
+                        Click "Next" to begin the algorithm.
+                    </div>
+                    <div id="equationBox" class="equation-box">
+                        Equations will appear here...
+                    </div>
+                </div>
+
+                <div id="matrixContainer" class="matrix-display">
+                    </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="code-container">
+                    <pre><code id="codeBlock" class="language-python">
+                        </code></pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

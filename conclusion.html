@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conclusion - Linear Algebra Solver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <h1>Linear Algebra Solver</h1>
+        <div class="nav-links">
+            <a href="index.html">Introduction</a>
+            <a href="demo.html">Interactive Demo</a>
+            <a href="conclusion.html" class="active">Conclusion</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="content-container">
+            <h2>Comparison & Conclusion</h2>
+            
+            <h3>Efficiency Comparison</h3>
+            <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+                <tr style="background: #e5e7eb;">
+                    <th>Method</th>
+                    <th>Complexity</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                </tr>
+                <tr>
+                    <td>Gaussian Elimination</td>
+                    <td>O(n³)</td>
+                    <td>Efficient for single systems. Standard algorithm.</td>
+                    <td>Numerical instability with small pivots.</td>
+                </tr>
+                <tr>
+                    <td>Matrix Inverse</td>
+                    <td>O(n³)</td>
+                    <td>Useful if solving for many B vectors with same A.</td>
+                    <td>Computationally expensive; explicit inverse is rarely needed.</td>
+                </tr>
+                <tr>
+                    <td>ERO (Gauss-Jordan)</td>
+                    <td>O(n³)</td>
+                    <td>Gives the full solution directly (Identity matrix).</td>
+                    <td>More operations than Gaussian Elimination.</td>
+                </tr>
+            </table>
+
+            <h3>Summary</h3>
+            <p>We demonstrated that while the Matrix Inverse method is mathematically elegant, Gaussian Elimination and ERO are often more practical for direct solving. In modern computing, we rely on optimized libraries like NumPy, but the logic visualized here remains the foundation.</p>
+
+            <h2>Project Team</h2>
+            <div class="members-grid">
+                <div class="member-card">
+                    <strong>Member 1</strong><br>
+                    <span style="color: #666;">UI/UX Design</span>
+                </div>
+                <div class="member-card">
+                    <strong>Member 2</strong><br>
+                    <span style="color: #666;">Algorithm Implementation</span>
+                </div>
+                <div class="member-card">
+                    <strong>Member 3</strong><br>
+                    <span style="color: #666;">Documentation & Testing</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

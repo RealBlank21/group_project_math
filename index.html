@@ -20,25 +20,51 @@
     <main>
         <div class="content-container">
             <h2>Introduction</h2>
-            <p>Welcome to the Interactive Linear Algebra Solver. This project demonstrates how programming concepts intersect with mathematical theory to solve systems of linear equations.</p>
+            <p>Elementary Row Operations, Gaussian Elimination and Matrix Inverse are all methods to solve a linear system.</p>
             
-            <h3>Definitions</h3>
-            <ul>
-                <li><strong>Elementary Row Operations (ERO):</strong> Simple operations performed on the rows of a matrix (swapping rows, multiplying by a scalar, adding rows) to reach a solution.</li>
-                <li><strong>Gaussian Elimination:</strong> A systematic algorithm using row operations to transform a matrix into an upper triangular form, followed by back-substitution.</li>
-            </ul>
+            <h3>Elementary Row Operations</h3>
+            <p>ERO (or Gauss-Jordon) transform the matrix into Reduce Row Echelon Form</p>
+            <div class="video-placeholder">
+                <div class="video-icon">▶</div>
+                <div>Animation Placeholder: ERO Visualization</div>
+            </div>
 
-            <h3>Matrix Inverse Method</h3>
-            <p>Finding a matrix A<sup>-1</sup> such that A * A<sup>-1</sup> = I. The solution to AX = B is given by X = A<sup>-1</sup>B.</p>
-            
+            <h3>Gaussian Elimination</h3>
+            <p>Gaussian Elimination transform the matrix into Row Echelon Form and then performing back substitution to find the value of all the variables</p>
+            <div class="video-placeholder">
+                <div class="video-icon">▶</div>
+                <div>Animation Placeholder: Gaussian Elimination Visualization</div>
+            </div>
+
+            <h3>Matrix Inverse</h3>
+            <p>Matrix Inverse use the property "X = A<sup>-1</sup> B" to solve for "AX = B"</p>
             <div class="video-placeholder">
                 <div class="video-icon">▶</div>
                 <div>Animation Placeholder: Matrix Inverse Visualization</div>
-                <div style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">(Place your custom animation video file here)</div>
             </div>
 
-            <h3>Importance in Programming</h3>
-            <p>Solving linear equations is the backbone of many computer science fields, including computer graphics (transformation matrices), machine learning (neural network weights), and physics simulations. While libraries like NumPy optimize these operations, understanding the underlying algorithms is crucial for debugging and optimization.</p>
+            <h3>What's the importance of solving linear equations using programming?</h3>
+            <ul>
+                <li><strong>Scale and Volume:</strong> Matrices beyond 3x3 with millions of variables (Like AI) are impossible to solve by hand.</li>
+                <li><strong>Real-Time Execution:</strong> Enables instant calculation for technologies like Self Driving Cars, GPS Triangulation and video game physics.</li>
+                <li><strong>Automation of Complexity:</strong> Converts messy real world problems into linear formats that computer can solve to predict outcomes.</li>
+                <li><strong>Efficiency Engines:</strong> Algorithm like Gaussian Elimination provide the most mathematically cheap way for hardware to find optimal solutions for logistics an economy.</li>
+            </ul>
+
+            <hr style="margin: 40px 0; border: 0; border-top: 1px solid #e5e7eb;">
+
+            <h2>Disclaimer</h2>
+            <p>This project is to demonstrate how these methods can be implemented through programming. In a production, real world setting, we would use NumPy (a library for numerical computing). NumPy leverages C-level optimization and CPU vectorization to handle these calculations with significantly higher performance and efficiency than standard Python loops.</p>
+
+            <h4>Example implementation using NumPy</h4>
+            <div class="video-placeholder" style="height: 150px; background-color: #f3f4f6; border-color: #ccc; color: #555;">
+                <div>[Insert Image Placeholder: NumPy Code Snippet]</div>
+            </div>
+
+            <h4>Example implementation using PyTorch (A Library for Deep Learning)</h4>
+            <div class="video-placeholder" style="height: 150px; background-color: #f3f4f6; border-color: #ccc; color: #555;">
+                <div>[Insert Image Placeholder: PyTorch Code Snippet]</div>
+            </div>
         </div>
     </main>
 

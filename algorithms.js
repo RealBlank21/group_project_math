@@ -5,41 +5,78 @@ function generateGaussianSteps() {
     let m = deepCopy(INITIAL_MATRIX);
     let n = m.length;
 
+    // --- FORWARD ELIMINATION ---
     s.push({ msg: "Start: Augmented Matrix [A|B]", eq: "Initial System", mat: deepCopy(m), line: 0 });
 
     for (let i = 0; i < n; i++) {
+        // Highlight Loop Start
+        s.push({ msg: `Iterating Main Loop: Column ${i+1}`, eq: `i = ${i}`, mat: deepCopy(m), line: 2 });
+        
         let pivot = m[i][i];
-        s.push({ msg: `Processing Column ${i+1}. Pivot is ${pivot.toFixed(2)}`, eq: `Pivot = Matrix[${i}][${i}]`, mat: deepCopy(m), line: 4, h:[[i,i]] });
+        s.push({ msg: `Processing Column ${i+1}. Pivot is ${pivot.toFixed(2)}`, eq: `Pivot = Matrix[${i}][${i}]`, mat: deepCopy(m), line: 3, h:[[i,i]] });
 
         if (Math.abs(pivot) > 1e-9 && pivot !== 1) {
-            for (let k = 0; k < n + 1; k++) m[i][k] /= pivot;
-            s.push({ msg: `Normalizing Row ${i+1}`, eq: `R${i+1} = R${i+1} / ${pivot.toFixed(2)}`, mat: deepCopy(m), line: 8, h:[[i,0],[i,1],[i,2],[i,3]] });
+            s.push({ msg: `Checking Pivot Normalization`, eq: `${pivot.toFixed(2)} != 1. Need to normalize.`, mat: deepCopy(m), line: 6, h:[[i,i]] });
+            
+            for (let k = 0; k < n + 1; k++) {
+                // Visualize inner loop
+                // Only showing the loop line occasionally to avoid too much noise, or just start of loop
+                if(k===0) s.push({ msg: `Normalizing Row ${i+1}`, eq: `Looping through row columns...`, mat: deepCopy(m), line: 7, h:[[i,k]] });
+                m[i][k] /= pivot;
+            }
+            s.push({ msg: `Row ${i+1} Normalized`, eq: `R${i+1} = R${i+1} / ${pivot.toFixed(2)}`, mat: deepCopy(m), line: 8, h:[[i,0],[i,1],[i,2],[i,3]] });
+            pivot = 1;
         }
 
+        // Highlight Rows Below Loop
+        s.push({ msg: `Preparing to eliminate rows below`, eq: `j loop from ${i+1} to ${n}`, mat: deepCopy(m), line: 12 });
+
         for (let j = i + 1; j < n; j++) {
+            s.push({ msg: `Targeting Row ${j+1}`, eq: `j = ${j}`, mat: deepCopy(m), line: 12, h:[[j,i]] });
+            
             let val_below = m[j][i];
             if (Math.abs(val_below) < 1e-9) continue;
             
-            s.push({ msg: `Targeting Row ${j+1}`, eq: `Value below pivot is ${val_below.toFixed(2)}`, mat: deepCopy(m), line: 13, h:[[j,i]] });
+            s.push({ msg: `Found value to eliminate`, eq: `Value = ${val_below.toFixed(2)}`, mat: deepCopy(m), line: 13, h:[[j,i]] });
+            
+            s.push({ msg: `Calculating Row Operation`, eq: `Looping k through columns...`, mat: deepCopy(m), line: 16 });
             
             for (let k = 0; k < n + 1; k++) {
                 m[j][k] = m[j][k] - (val_below * m[i][k]);
             }
-            s.push({ msg: `Eliminating value below pivot`, eq: `R${j+1} = R${j+1} - (${val_below.toFixed(2)} × R${i+1})`, mat: deepCopy(m), line: 17, h:[[j,0],[j,1],[j,2],[j,3]] });
+            s.push({ msg: `Elimination Complete for Row ${j+1}`, eq: `R${j+1} = R${j+1} - (${val_below.toFixed(2)} × R${i+1})`, mat: deepCopy(m), line: 17, h:[[j,0],[j,1],[j,2],[j,3]] });
         }
     }
     
+    // --- BACK SUBSTITUTION ---
     let solution = new Array(n).fill(0);
-    s.push({ msg: "Forward Elimination Complete. Starting Back Substitution.", eq: "Solving variables from bottom up.", mat: deepCopy(m), line: 17 });
+    s.push({ msg: "Forward Elimination Complete.", eq: "Matrix is in Row Echelon Form.", mat: deepCopy(m), line: 20 });
+    s.push({ msg: "Initializing Solution Vector", eq: "Solution = [0, 0, 0]", mat: deepCopy(m), line: 22 });
 
     for (let i = n - 1; i >= 0; i--) {
+        // Loop Highlight
+        s.push({ msg: `Solving variable x${i+1}`, eq: `i = ${i} (Iterating backwards)`, mat: deepCopy(m), line: 23 });
+
         let sum = 0;
-        let sumParts = [];
+        let sumStrParts = [];
         
+        s.push({ msg: `Calculating Sum of known variables`, eq: `sum_ax = 0`, mat: deepCopy(m), line: 24 });
+        
+        s.push({ msg: `Inner Loop for Substitution`, eq: `j goes from ${i+1} to ${n}`, mat: deepCopy(m), line: 25 });
+
         for(let j = i + 1; j < n; j++) {
             let val = m[i][j] * solution[j];
             sum += val;
-            sumParts.push(`(${m[i][j].toFixed(2)} * ${solution[j].toFixed(2)})`);
+            let term = `(${m[i][j].toFixed(2)} * ${solution[j].toFixed(2)})`;
+            sumStrParts.push(term);
+            
+            s.push({ 
+                msg: `Adding term from x${j+1}`, 
+                eq: `sum_ax += ${m[i][j].toFixed(2)} * ${solution[j].toFixed(2)}\nCurrent Sum: ${sum.toFixed(2)}`, 
+                mat: deepCopy(m), 
+                line: 26,
+                h: [[i, j, 'highlight']]
+            });
         }
         
         let rhs = m[i][n];
@@ -47,18 +84,23 @@ function generateGaussianSteps() {
         let val = (rhs - sum) / coeff;
         solution[i] = val;
         
-        let eqStr = `x${i+1} = (${rhs.toFixed(2)} - [${sumParts.join('+') || '0'}]) / ${coeff.toFixed(2)}`;
+        // Detailed Equation Breakdown
+        let vars = ['x', 'y', 'z'];
+        let eqRaw = `${coeff.toFixed(2)}${vars[i]} + Sum = ${rhs.toFixed(2)}`;
+        let eqSub = `${coeff.toFixed(2)}${vars[i]} + [${sumStrParts.join(' + ') || '0'}] = ${rhs.toFixed(2)}`;
+        let eqIso = `${vars[i]} = (${rhs.toFixed(2)} - ${sum.toFixed(2)}) / ${coeff.toFixed(2)}`;
+        let eqFin = `${vars[i]} = ${val.toFixed(2)}`;
 
         s.push({ 
-            msg: `Solving for x${i+1}`, 
-            eq: eqStr, 
+            msg: `Solved x${i+1}`, 
+            eq: `${eqRaw}\n${eqSub}\n${eqIso}\n${eqFin}`, 
             mat: deepCopy(m), 
-            h:[[i,0],[i,1],[i,2],[i,3,'highlight']],
-            line: 24 
+            h:[[i,i,'highlight-pos'], [i,3,'highlight']],
+            line: 27 
         });
     }
 
-    s.push({ msg: "Gaussian Elimination Complete", eq: `Solution: [${solution.map(x=>x.toFixed(2)).join(', ')}]`, mat: [solution], line: 26 });
+    s.push({ msg: "Gaussian Elimination Complete", eq: `Solution: [${solution.map(x=>x.toFixed(2)).join(', ')}]`, mat: [solution], line: 28 });
     return s;
 }
 
@@ -70,22 +112,31 @@ function generateEROSteps() {
     s.push({ msg: "Start: Gauss-Jordan (ERO)", eq: "Goal: Identity Matrix", mat: deepCopy(m), line: 0 });
 
     for(let i=0; i<n; i++) {
+        s.push({ msg: `Main Loop: Column ${i+1}`, eq: `i = ${i}`, mat: deepCopy(m), line: 2 });
+        
         let pivot = m[i][i];
         s.push({ msg: `Pivot at [${i},${i}]`, eq: `Pivot = ${pivot.toFixed(2)}`, mat: deepCopy(m), line: 3, h:[[i,i]] });
 
         if (Math.abs(pivot) > 1e-9 && pivot !== 1) {
+            s.push({ msg: `Normalize Row ${i+1}`, eq: `R${i+1} = R${i+1} / ${pivot.toFixed(2)}`, mat: deepCopy(m), line: 6 });
+            
             for (let k = 0; k < n + 1; k++) m[i][k] /= pivot;
-            s.push({ msg: `Normalize Row ${i+1}`, eq: `R${i+1} = R${i+1} / ${pivot.toFixed(2)}`, mat: deepCopy(m), line: 8, h:[[i,0],[i,1],[i,2],[i,3]] });
+            s.push({ msg: `Row ${i+1} Normalized`, eq: `Pivot is now 1`, mat: deepCopy(m), line: 8, h:[[i,0],[i,1],[i,2],[i,3]] });
         }
+
+        s.push({ msg: `Eliminating other rows`, eq: `Looping j from 0 to ${n}`, mat: deepCopy(m), line: 12 });
 
         for(let j=0; j<n; j++) {
             if(i === j) continue;
             let val = m[j][i];
             if(Math.abs(val) < 1e-9) continue;
             
-            s.push({ msg: `Eliminating [${j},${i}]`, eq: `Target = ${val.toFixed(2)}`, mat: deepCopy(m), line: 13, h:[[j,i]] });
+            s.push({ msg: `Targeting [${j},${i}]`, eq: `Value to eliminate: ${val.toFixed(2)}`, mat: deepCopy(m), line: 13, h:[[j,i]] });
+            
+            s.push({ msg: `Performing Row Operation`, eq: `Looping columns k...`, mat: deepCopy(m), line: 16 });
             for (let k = 0; k < n + 1; k++) m[j][k] -= val * m[i][k];
-            s.push({ msg: `Row Operation`, eq: `R${j+1} = R${j+1} - (${val.toFixed(2)} × R${i+1})`, mat: deepCopy(m), line: 17, h:[[j,0],[j,1],[j,2],[j,3]] });
+            
+            s.push({ msg: `Row ${j+1} Updated`, eq: `R${j+1} = R${j+1} - (${val.toFixed(2)} × R${i+1})`, mat: deepCopy(m), line: 17, h:[[j,0],[j,1],[j,2],[j,3]] });
         }
     }
     let res = m.map(r => r[n]);

@@ -19,52 +19,65 @@
 
     <main>
         <div class="content-container">
-            <h2>Comparison & Conclusion</h2>
+            <h2>Result and Efficiency Comparison</h2>
             
-            <h3>Efficiency Comparison</h3>
-            <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
-                <tr style="background: #e5e7eb;">
-                    <th>Method</th>
-                    <th>Complexity</th>
-                    <th>Pros</th>
-                    <th>Cons</th>
-                </tr>
-                <tr>
-                    <td>Gaussian Elimination</td>
-                    <td>O(n³)</td>
-                    <td>Efficient for single systems. Standard algorithm.</td>
-                    <td>Numerical instability with small pivots.</td>
-                </tr>
-                <tr>
-                    <td>Matrix Inverse</td>
-                    <td>O(n³)</td>
-                    <td>Useful if solving for many B vectors with same A.</td>
-                    <td>Computationally expensive; explicit inverse is rarely needed.</td>
-                </tr>
-                <tr>
-                    <td>ERO (Gauss-Jordan)</td>
-                    <td>O(n³)</td>
-                    <td>Gives the full solution directly (Identity matrix).</td>
-                    <td>More operations than Gaussian Elimination.</td>
-                </tr>
-            </table>
+            <p>All 3 methods outputs the correct result, however the efficiency varies.</p>
 
-            <h3>Summary</h3>
-            <p>We demonstrated that while the Matrix Inverse method is mathematically elegant, Gaussian Elimination and ERO are often more practical for direct solving. In modern computing, we rely on optimized libraries like NumPy, but the logic visualized here remains the foundation.</p>
+            <div class="video-placeholder" style="height: 250px; background-color: #fff; border-style: solid; color: #555;">
+                <div>[Insert Image Placeholder: Efficiency Chart Small Matrix]</div>
+            </div>
+
+            <p>Matrix Inverse performs the slowest, Gaussian Elimination in between and Elementary Row Operation as the fastest.</p>
+            <p>However when we increase the size of the matrix to 10x10, Gaussian Elimination performs the fastest, hence the most efficient between the three.</p>
+
+            <div class="video-placeholder" style="height: 250px; background-color: #fff; border-style: solid; color: #555;">
+                <div>[Insert Image Placeholder: Efficiency Chart 10x10 Matrix]</div>
+            </div>
+
+            <h2>Why Use Other Methods if They Aren’t the "Fastest"?</h2>
+
+            <h3>Gaussian Elimination</h3>
+            <ul>
+                <li><strong>Best for:</strong> Solving a single, large system of equations (<i>Ax = b</i>).</li>
+                <li><strong>Efficiency:</strong> Uses roughly 2/3 <i>n</i><sup>3</sup> operations, the mathematical minimum for a general solution.</li>
+                <li><strong>Real-Life Example:</strong> Structural Engineering (e.g., Bridge stress analysis) where a massive matrix is solved once for a specific design.</li>
+            </ul>
+
+            <h3>Gauss-Jordan Elimination</h3>
+            <ul>
+                <li><strong>Best for:</strong> Theoretical analysis and finding the Reduced Row Echelon Form (RREF).</li>
+                <li><strong>Efficiency:</strong> Costs <i>n</i><sup>3</sup> operations; slower than Gaussian because it clears entries above the diagonal.</li>
+                <li><strong>Real-Life Example:</strong> Network Flow/Circuit Analysis to identify dependencies and redundant paths in a power grid.</li>
+            </ul>
+
+            <h3>Matrix Inverse (<i>A</i><sup>-1</sup>)</h3>
+            <ul>
+                <li><strong>Best for:</strong> Systems where the matrix <i>A</i> stays constant but the input <i>b</i> changes thousands of times.</li>
+                <li><strong>Efficiency:</strong> High initial cost (2<i>n</i><sup>3</sup>), but subsequent solutions are "cheap" matrix-vector multiplications (<i>n</i><sup>2</sup>).</li>
+                <li><strong>Real-Life Example:</strong> GPS Navigation where your device uses a pre-computed inverse to solve your position instantly as signals (<i>b</i>) update.</li>
+            </ul>
 
             <h2>Project Team</h2>
             <div class="members-grid">
                 <div class="member-card">
-                    <strong>Member 1</strong><br>
-                    <span style="color: #666;">UI/UX Design</span>
+                    <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%; margin-bottom: 10px;"></div>
+                    <strong>MUHAMMAD ADLI BIN NAZLI</strong><br>
+                    <span style="color: #666;">309947</span>
                 </div>
                 <div class="member-card">
-                    <strong>Member 2</strong><br>
-                    <span style="color: #666;">Algorithm Implementation</span>
+                    <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%; margin-bottom: 10px;"></div>
+                    <strong>MUHAMMAD RAIJALU SIDIK</strong><br>
+                    <span style="color: #666;">309140</span>
                 </div>
                 <div class="member-card">
-                    <strong>Member 3</strong><br>
-                    <span style="color: #666;">Documentation & Testing</span>
+                    <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%; margin-bottom: 10px;"></div>
+                    <strong>WANG ZHENG</strong><br>
+                    <span style="color: #666;">303247</span>
+                </div>
+                <div class="member-card">
+                    <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%; margin-bottom: 10px;"></div>
+                    <strong>GRESSEANDIRA RONALD</strong><br>
+                    <span style="color: #666;">302965</span>
                 </div>
             </div>
         </div>
